@@ -5,7 +5,8 @@ LABEL maintainer="Burak Ince <burak.ince@linux.org.tr>"
 ENV SONAR_SCANNER_MSBUILD_VERSION=4.3.1.1372 \
     SONAR_SCANNER_VERSION=3.2.0.1227 \
     DOTNET_SDK_VERSION=2.1 \
-    MONO_DEBIAN_VERSION=5.12.0.226-0xamarin3+debian9b1 \
+    MONO_DEBIAN_VERSION=5.14.0.177-0xamarin3+debian9b1 \
+    NODE_JS_VERSION=8.x \
     SONAR_SCANNER_MSBUILD_HOME=/opt/sonar-scanner-msbuild \
     DOTNET_PROJECT_DIR=/project \
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true \
@@ -42,6 +43,10 @@ RUN wget https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/
   && chmod 775 $SONAR_SCANNER_MSBUILD_HOME/*.exe \
   && chmod 775 $SONAR_SCANNER_MSBUILD_HOME/**/bin/* \
   && chmod 775 $SONAR_SCANNER_MSBUILD_HOME/**/lib/*.jar
+  
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+  && apt-get install -y nodejs \
+  && apt-get install -y build-essential
 
 ENV PATH="$SONAR_SCANNER_MSBUILD_HOME:$SONAR_SCANNER_MSBUILD_HOME/sonar-scanner-$SONAR_SCANNER_VERSION/bin:${PATH}"
 
